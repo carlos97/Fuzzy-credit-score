@@ -1,0 +1,7 @@
+# Python specific
+__pycache__
+
+# Build files
+build/
+dist/
+main.spec
