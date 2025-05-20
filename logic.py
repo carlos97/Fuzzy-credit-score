@@ -14,11 +14,11 @@ calificacion_crediticia_bajo,calificacion_crediticia_bajo_score = fuzz.zmf(calif
 calificacion_crediticia_medio,calificacion_crediticia_medio_score = fuzz.gaussmf(calificacion_crediticia,600,150),0.3
 calificacion_crediticia_alto,calificacion_crediticia_alto_score = fuzz.smf(calificacion_crediticia,750,1000),0.6
 
-obligaciones_financieras = np.arange(0, 3.6, 1)
+obligaciones_financieras = np.arange(0, 20.6, 1)
 
 obligaciones_financieras_bajo,obligaciones_financieras_bajo_score = fuzz.zmf(obligaciones_financieras,0,1),0.5
 obligaciones_financieras_normal,obligaciones_financieras_normal_score = fuzz.gaussmf(obligaciones_financieras,1.250,0.800),0.35
-obligaciones_financieras_alta,obligaciones_financieras_alta_score = fuzz.smf(obligaciones_financieras,2.500,3.500),0.15
+obligaciones_financieras_alta,obligaciones_financieras_alta_score = fuzz.smf(obligaciones_financieras,2.500,20.500),0.15
 
 edad = np.arange(18, 90, 1)
 
@@ -128,10 +128,10 @@ def membership_functions(v_ingresos,v_calificacion_crediticia,v_obligaciones_fin
     valor_membresia_obligaciones_financieras_bajo = fuzz.interp_membership(obligaciones_financieras, obligaciones_financieras_bajo, v_obligaciones_financieras)
     valor_membresia_obligaciones_financieras_normal = fuzz.interp_membership(obligaciones_financieras, obligaciones_financieras_normal, v_obligaciones_financieras)
     valor_membresia_obligaciones_financieras_alta = fuzz.interp_membership(obligaciones_financieras, obligaciones_financieras_alta, v_obligaciones_financieras)
-
-    valor_membresia_edad_joven = fuzz.interp_membership(edad, edad_joven, int(v_edad))
-    valor_membresia_edad_adulto = fuzz.interp_membership(edad, edad_adulto, int(v_edad))
-    valor_membresia_edad_anciano = fuzz.interp_membership(edad, edad_anciano, int(v_edad))
+    print(v_edad)
+    valor_membresia_edad_joven = fuzz.interp_membership(edad, edad_joven, v_edad)
+    valor_membresia_edad_adulto = fuzz.interp_membership(edad, edad_adulto, v_edad)
+    valor_membresia_edad_anciano = fuzz.interp_membership(edad, edad_anciano, v_edad)
 
     valor_membresia_antiguedad_Malo = fuzz.interp_membership(antiguedad, antiguedad_Malo, v_antiguedad)
     valor_membresia_antiguedad_Normal = fuzz.interp_membership(antiguedad, antiguedad_Normal, v_antiguedad)
@@ -193,8 +193,8 @@ def calculateScore(edad,calificacion_crediticia,obligaciones_financieras,ingreso
   d3 = edad
   return (d1*d2)+d3
 
-def eval_score(vedad, vcalificacion_crediticia, vobligaciones_financieras, vingresos, vantiguedad, vpersonas_cargo, vRRF):
-    resultados_centroide = membership_functions(vedad, vcalificacion_crediticia, vobligaciones_financieras, vingresos, vantiguedad, vpersonas_cargo, vRRF)
+def eval_score(vingresos,vcalificacion_crediticia,vobligaciones_financieras,vedad,vantiguedad,vpersonas_cargo,vRRF):
+    resultados_centroide = membership_functions(vingresos,vcalificacion_crediticia,vobligaciones_financieras,vedad,vantiguedad,vpersonas_cargo,vRRF)
     vedad = eval(f"edad_{resultados_centroide['edad'][0]}_score")
     vingresos = eval(f"ingresos_{resultados_centroide['ingresos'][0]}_score")
     vcalificacion_crediticia = eval(f"calificacion_crediticia_{resultados_centroide['calificacion_crediticia'][0]}_score")
@@ -206,7 +206,7 @@ def eval_score(vedad, vcalificacion_crediticia, vobligaciones_financieras, vingr
     result = calculateScore(vedad,vcalificacion_crediticia,vobligaciones_financieras,vingresos,vantiguedad,vpersonas_cargo,vRRF)
     return result
 
-def get_score(vedad, vcalificacion_crediticia, vobligaciones_financieras, vingresos, vantiguedad, vpersonas_cargo,vRRF):
+def get_score(vingresos,vcalificacion_crediticia,vobligaciones_financieras,vedad,vantiguedad,vpersonas_cargo,vRRF):
 
     min_val = 0.28
     max_val = 3.50
@@ -217,7 +217,7 @@ def get_score(vedad, vcalificacion_crediticia, vobligaciones_financieras, vingre
     score_medio  = fuzz.trapmf(score,[0.98, 1.68, 1.68, 2.38])
     score_alto  = fuzz.trapmf(score,[1.68, 2.38, 2.38, max_val])
 
-    result = eval_score(vedad, vcalificacion_crediticia, vobligaciones_financieras, vingresos, vantiguedad, vpersonas_cargo, vRRF)
+    result = eval_score(vingresos,vcalificacion_crediticia,vobligaciones_financieras,vedad,vantiguedad,vpersonas_cargo,vRRF)
 
     valor_membresia_score_bajo = fuzz.interp_membership(score, score_bajo, result)
     valor_membresia_score_medio = fuzz.interp_membership(score, score_medio, result)

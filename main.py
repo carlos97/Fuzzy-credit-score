@@ -102,7 +102,7 @@ def crear_interfaz():
     print(f"Nivel de Estudios: {nivel_estudios}")
 
     RRF = RRF_def( contrato, estado_civil, condicion_medica, nivel_estudios)
-    score = get_score(ingresos, calificacion_crediticia, obligaciones_financieras, antiguedad, edad, personas_cargo, RRF)
+    score = get_score(ingresos, calificacion_crediticia, obligaciones_financieras, edad, antiguedad, personas_cargo, RRF)
     tk.messagebox.showinfo("Resultado", f"El puntaje obtenido es: {score}")
   # Botón para procesar los datos
   process_button = ttk.Button(main_frame, text="Procesar", command=obtener_valores)
