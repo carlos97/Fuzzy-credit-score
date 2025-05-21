@@ -58,6 +58,7 @@ contrato_options ={
     'Fijo': 45,
     'Prestación de Servicios': 35,
     'desempleado': 0,
+    "Pensionado":40
 }
 "Soltero/a", "Casado/a", "Divorciado/a", "Viudo/a", "Unión Libre"
 estado_civil_options = {

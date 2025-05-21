@@ -62,7 +62,7 @@ def crear_interfaz():
   # Labels y Comboboxes para los campos de lista desplegable
   ttk.Label(main_frame, text="Tipo de contrato:").grid(row=8, column=0, sticky=tk.W)
   contrato_var = tk.StringVar()
-  contrato_combobox = ttk.Combobox(main_frame, textvariable=contrato_var, values=["Indefinido", "Fijo", "Prestación de Servicios", "Desempleado"], state="readonly")
+  contrato_combobox = ttk.Combobox(main_frame, textvariable=contrato_var, values=["Indefinido", "Fijo", "Prestación de Servicios", "Desempleado","Pensionado"], state="readonly")
   contrato_combobox.grid(row=8, column=1, sticky=(tk.W, tk.E))
   contrato_combobox.set("Indefinido") # Valor por defecto
 
