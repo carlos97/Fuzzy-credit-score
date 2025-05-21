@@ -8,31 +8,31 @@ ingresos_bajo,ingresos_bajo_score = fuzz.trapmf(x_ingresos,[0, 0.5, 1, 2]),0.2
 ingresos_medio,ingresos_medio_score  = fuzz.trapmf(x_ingresos,[1.5, 2, 3, 4]),0.3
 ingresos_alto,ingresos_alto_score  = fuzz.trapmf(x_ingresos,[3, 4, 20.099, 20.1]),0.5
 
-calificacion_crediticia = np.arange(0, 1000, 1)
+calificacion_crediticia = np.arange(-1, 1001, 1)
 
 calificacion_crediticia_bajo,calificacion_crediticia_bajo_score = fuzz.zmf(calificacion_crediticia,0,400),0.1
 calificacion_crediticia_medio,calificacion_crediticia_medio_score = fuzz.gaussmf(calificacion_crediticia,600,150),0.3
 calificacion_crediticia_alto,calificacion_crediticia_alto_score = fuzz.smf(calificacion_crediticia,750,1000),0.6
 
-obligaciones_financieras = np.arange(0, 20.6, 1)
+obligaciones_financieras = np.arange(-1, 20.6, 1)
 
 obligaciones_financieras_bajo,obligaciones_financieras_bajo_score = fuzz.zmf(obligaciones_financieras,0,1),0.5
 obligaciones_financieras_normal,obligaciones_financieras_normal_score = fuzz.gaussmf(obligaciones_financieras,1.250,0.800),0.35
 obligaciones_financieras_alta,obligaciones_financieras_alta_score = fuzz.smf(obligaciones_financieras,2.500,20.500),0.15
 
-edad = np.arange(18, 90, 1)
+edad = np.arange(17, 91, 1)
 
-edad_joven,edad_joven_score = fuzz.trapmf(edad,[18, 18.1, 22, 29]),0.1
+edad_joven,edad_joven_score = fuzz.trapmf(edad,[17, 18.1, 22, 29]),0.1
 edad_adulto,edad_adulto_score = fuzz.trapmf(edad,[22, 26, 50, 61]),0.6
 edad_anciano,edad_anciano_score = fuzz.trapmf(edad,[50, 58, 89, 90]),0.3
 
-antiguedad = np.arange(0, 54, 1)
+antiguedad = np.arange(-1, 56, 1)
 
 antiguedad_Malo,antiguedad_Malo_score = fuzz.zmf(antiguedad, 0, 18),0.1
 antiguedad_Normal,antiguedad_Normal_score = fuzz.gaussmf(antiguedad,24,10),0.3
-antiguedad_Bueno,antiguedad_Bueno_score = fuzz.smf(antiguedad, 36,54),0.6
+antiguedad_Bueno,antiguedad_Bueno_score = fuzz.smf(antiguedad, 36,55),0.6
 
-personas_cargo = np.arange(0, 8, 1)
+personas_cargo = np.arange(-1, 11, 1)
 
 personas_cargo_pocas,personas_cargo_pocas_score = fuzz.zmf(personas_cargo,0,3),0.5
 personas_cargo_normal,personas_cargo_normal_score = fuzz.gaussmf(personas_cargo,4,1),0.4
@@ -238,5 +238,5 @@ def get_score(vingresos,vcalificacion_crediticia,vobligaciones_financieras,vedad
         mejor_var, mejor_membresia = centroide_pertenencia(var, valores, all_memberships)
         resultados_centroide[var] = (mejor_var, mejor_membresia)
     
-    return (resultados_centroide)
+    return (result,resultados_centroide)
 

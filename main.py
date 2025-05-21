@@ -14,36 +14,44 @@ def crear_interfaz():
   root.title("Aplicación de Crédito")
 
   # Crear un frame principal para organizar los widgets
-  main_frame = ttk.Frame(root, padding="10")
-  main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+  main_frame_head = ttk.Frame(root, padding="10")
+  main_frame_head.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+  # Encabezado describiendo el funcionamiento de la aplicación
+  ttk.Label(main_frame_head, text="Esta aplicación calcula el puntaje de riesgo y la").grid(row=0, column=0, columnspan=2, sticky=tk.W)
+  ttk.Label(main_frame_head, text="posibilidad de obtener un crédito basado en los siguientes variables:").grid(row=1, column=0, columnspan=2, sticky=tk.W)
+  ttk.Label(main_frame_head, text="El controlador difuso maneja estas variables para calcular").grid(row=2, column=0, columnspan=2, sticky=tk.W)
+  ttk.Label(main_frame_head, text="el puntaje de riesgo y la posibilidad de obtener un crédito.").grid(row=3, column=0, columnspan=2, sticky=tk.W)
 
+  main_frame = ttk.Frame(root, padding="10")
+  main_frame.grid(row=1, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+  
   # Labels y Entries para los campos numéricos
-  ttk.Label(main_frame, text="Edad del solicitante:").grid(row=1, column=0, sticky=tk.W, pady=5)
+  ttk.Label(main_frame, text="Edad del solicitante(18-90):").grid(row=1, column=0, sticky=tk.W, pady=5)
   edad_entry = ttk.Entry(main_frame)
   edad_entry.insert(0, "30")
   edad_entry.grid(row=1, column=1, sticky=(tk.W, tk.E), pady=5)
 
-  ttk.Label(main_frame, text="Calificación crediticia (puntaje):").grid(row=2, column=0, sticky=tk.W, pady=5)
+  ttk.Label(main_frame, text="Calificación crediticia (0-1000):").grid(row=2, column=0, sticky=tk.W, pady=5)
   calificacion_crediticia_entry = ttk.Entry(main_frame)
   calificacion_crediticia_entry.insert(0, "800")
   calificacion_crediticia_entry.grid(row=2, column=1, sticky=(tk.W, tk.E), pady=5)
 
-  ttk.Label(main_frame, text="Obligaciones financieras (en millones):").grid(row=3, column=0, sticky=tk.W, pady=5)
+  ttk.Label(main_frame, text="Obligaciones financieras (0-2000000):").grid(row=3, column=0, sticky=tk.W, pady=5)
   obligaciones_financieras_entry = ttk.Entry(main_frame)
   obligaciones_financieras_entry.insert(0, "1000000")
   obligaciones_financieras_entry.grid(row=3, column=1, sticky=(tk.W, tk.E), pady=5)
 
-  ttk.Label(main_frame, text="Ingresos mensuales (en millones):").grid(row=4, column=0, sticky=tk.W, pady=5)
+  ttk.Label(main_frame, text="Ingresos mensuales (0-25000000):").grid(row=4, column=0, sticky=tk.W, pady=5)
   ingresos_entry = ttk.Entry(main_frame)
   ingresos_entry.insert(0, "6000000")
   ingresos_entry.grid(row=4, column=1, sticky=(tk.W, tk.E), pady=5)
 
-  ttk.Label(main_frame, text="Años de antigüedad laboral:").grid(row=5, column=0, sticky=tk.W, pady=5)
+  ttk.Label(main_frame, text="Años de antigüedad laboral (0-55):").grid(row=5, column=0, sticky=tk.W, pady=5)
   antiguedad_entry = ttk.Entry(main_frame)
   antiguedad_entry.insert(0, "20")
   antiguedad_entry.grid(row=5, column=1, sticky=(tk.W, tk.E), pady=5)
 
-  ttk.Label(main_frame, text="Número de personas a cargo:").grid(row=6, column=0, sticky=tk.W)
+  ttk.Label(main_frame, text="Número de personas a cargo(0-10):").grid(row=6, column=0, sticky=tk.W)
   personas_cargo_entry = ttk.Entry(main_frame)
   personas_cargo_entry.insert(0, "1")
   personas_cargo_entry.grid(row=6, column=1, sticky=(tk.W, tk.E))
@@ -78,6 +86,42 @@ def crear_interfaz():
 
   # Función para obtener los valores (esto es un ejemplo, puedes añadir la lógica de tu aplicación aquí)
   def obtener_valores():
+    try:
+        edad = int(edad_entry.get())
+    except ValueError:
+        tk.messagebox.showerror("Error", "Por favor ingrese un valor númerico entero para la Edad.")
+        return
+
+    try:
+        calificacion_crediticia = int(calificacion_crediticia_entry.get())
+    except ValueError:
+        tk.messagebox.showerror("Error", "Por favor ingrese un valor númerico entero para la Calificación Crediticia.")
+        return
+
+    try:
+        antiguedad = int(antiguedad_entry.get())
+    except ValueError:
+        tk.messagebox.showerror("Error", "Por favor ingrese un valor númerico entero para la Antigüedad Laboral.")
+        return
+
+    try:
+        personas_cargo = int(personas_cargo_entry.get())
+    except ValueError:
+        tk.messagebox.showerror("Error", "Por favor ingrese un valor númerico entero para el Número de Personas a Cargo.")
+        return
+
+    try:
+        personas_cargo = int(obligaciones_financieras_entry.get())
+    except ValueError:
+        tk.messagebox.showerror("Error", "Por favor ingrese un valor decimal para el Número de Personas a Cargo.")
+        return
+
+    try:
+        personas_cargo = int(ingresos_entry.get())
+    except ValueError:
+        tk.messagebox.showerror("Error", "Por favor ingrese un valor decimal para el Número de Personas a Cargo.")
+        return
+     
     edad = int(edad_entry.get())
     calificacion_crediticia = int(calificacion_crediticia_entry.get())
     obligaciones_financieras = float(obligaciones_financieras_entry.get())/1000000
@@ -102,8 +146,10 @@ def crear_interfaz():
     print(f"Nivel de Estudios: {nivel_estudios}")
 
     RRF = RRF_def( contrato, estado_civil, condicion_medica, nivel_estudios)
-    score = get_score(ingresos, calificacion_crediticia, obligaciones_financieras, edad, antiguedad, personas_cargo, RRF)
-    tk.messagebox.showinfo("Resultado", f"El puntaje obtenido es: {score}")
+    score,afs = get_score(ingresos, calificacion_crediticia, obligaciones_financieras, edad, antiguedad, personas_cargo, RRF)
+    
+    result_message = f"Tu puntaje de riesgo es: {score}, la posibilidad de obtener el crédito es: {afs['score'][0]}"
+    messagebox.showinfo("Resultado", result_message)
   # Botón para procesar los datos
   process_button = ttk.Button(main_frame, text="Procesar", command=obtener_valores)
   process_button.grid(row=12, column=0, columnspan=2, pady=10)
